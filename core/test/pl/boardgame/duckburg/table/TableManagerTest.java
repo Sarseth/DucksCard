@@ -15,7 +15,7 @@ public class TableManagerTest {
 
 	private TableManager tableManager;
 
-	private Card exampleCard = new TownhallCard();
+	private Card exampleCard = new TownhallCard(1, "example");
 
 	@Before
 	public void before() {

@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.title = "Duckburg";
 		config.height = 960;
 		config.width = 1600;
-		config.fullscreen = true;
+		config.fullscreen = false;
 		new LwjglApplication(new Duckburg(), config);
 	}
 }
