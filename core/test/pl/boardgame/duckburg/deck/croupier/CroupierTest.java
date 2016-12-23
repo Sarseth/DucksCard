@@ -34,7 +34,7 @@ public class CroupierTest {
 					townhallCardCounter++;
 				}
 			}
-			assertThat(townhallCardCounter > 1, is(true)); // TODO: No internet. Find greaterThanOrEqualTo matcher and inject into project
+			assertThat(townhallCardCounter >= 3, is(true)); // TODO: No internet. Find greaterThanOrEqualTo matcher and inject into project
 		}
 	}
 
