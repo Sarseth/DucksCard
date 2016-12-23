@@ -155,12 +155,12 @@ public class CardNames {
 	public static final String ACTION_40 = "StinkyBombExplosion";
 	public static final String ACTION_41 = "TankerShipCrash";
 	public static final String ACTION_42 = "LuckyDay";
-	public static final String ACTION_44 = "TrollAttack";
-	public static final String ACTION_45 = "Xmass";
-	public static final String ACTION_46 = "TaxRaise";
-	public static final String ACTION_47 = "OceanMerchantFleet";
-	public static final String ACTION_48 = "SpyPlane";
-	public static final String ACTION_49 = "CarRace";
-	public static final String ACTION_50 = "Marathon";
+	public static final String ACTION_43 = "TrollAttack";
+	public static final String ACTION_44 = "Xmass";
+	public static final String ACTION_45 = "TaxRaise";
+	public static final String ACTION_46 = "OceanMerchantFleet";
+	public static final String ACTION_47 = "SpyPlane";
+	public static final String ACTION_48 = "CarRace";
+	public static final String ACTION_49 = "Marathon";
 
 }

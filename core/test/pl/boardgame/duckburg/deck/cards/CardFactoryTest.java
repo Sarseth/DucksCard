@@ -32,6 +32,7 @@ public class CardFactoryTest {
 		assertThat("SPORT cards shall start at 73", CARD_DECK.get(73).getCardType(), is(CardType.SPORT));
 		assertThat("TRANSPORT cards shall start at 83", CARD_DECK.get(83).getCardType(), is(CardType.TRANSPORT));
 		assertThat("SPECIAL cards shall start at 93", CARD_DECK.get(93).getCardType(), is(CardType.SPECIAL));
+		assertThat("SPECIAL cards shall start at 93", CARD_DECK.get(101).getCardType(), is(CardType.SPECIAL));
 		assertThat("ACTION cards shall start at 102", CARD_DECK.get(102).getCardType(), is(CardType.ACTION));
 
 	}
