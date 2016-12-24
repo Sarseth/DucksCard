@@ -7,10 +7,6 @@ import pl.boardgame.duckburg.deck.cards.Card;
 
 public class TableManager {
 
-	public static final int SMALL_SIZE = 20;
-	public static final int NORMAL_SIZE = 30;
-	public static final int BIG_SIZE = 40;
-
 	private TableGrid table;
 
 	public void createGrid(int gridSize) {

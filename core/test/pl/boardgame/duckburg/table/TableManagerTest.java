@@ -8,6 +8,7 @@ import java.awt.Point;
 import org.junit.Before;
 import org.junit.Test;
 
+import pl.boardgame.duckburg.GameOptions;
 import pl.boardgame.duckburg.deck.cards.Card;
 import pl.boardgame.duckburg.deck.cards.TownhallCard;
 
@@ -20,7 +21,7 @@ public class TableManagerTest {
 	@Before
 	public void before() {
 		tableManager = new TableManager();
-		tableManager.createGrid(TableManager.SMALL_SIZE);
+		tableManager.createGrid(GameOptions.TableSize.SMALL.getTableSize());
 	}
 
 	@Test
@@ -52,7 +53,8 @@ public class TableManagerTest {
 	public void addingOutsideOfBounds() {
 		// GIVEN
 		// WHEN
-		tableManager.addIdAtPosition(new Point(TableManager.SMALL_SIZE, TableManager.SMALL_SIZE), exampleCard);
+		int tableSize = GameOptions.TableSize.SMALL.getTableSize();
+		tableManager.addIdAtPosition(new Point(tableSize, tableSize), exampleCard);
 		// THEN
 	}
 
