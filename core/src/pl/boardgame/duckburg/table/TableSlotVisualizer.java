@@ -1,10 +1,10 @@
 package pl.boardgame.duckburg.table;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
 
 import pl.boardgame.duckburg.deck.cards.Card;
+import pl.boardgame.duckburg.deck.cards.types.CardType;
 import pl.boardgame.duckburg.player.Player;
 import pl.boardgame.duckburg.utils.exceptions.SingletonMultipleInitializationException;
 
@@ -20,11 +20,27 @@ public class TableSlotVisualizer {
 	}
 
 	public List<Point> availablePositionsForCard(Player player, Card card) {
-		List<Point> availablePositions = new ArrayList<>();
-		TableManager tableManager = TableManager.getInstance();
-		//TODO: find all position on table grid which are available for arguments
-
+		List<Point> availablePositions;
+		if(CardType.TOWNHALL == card.getCardType()) {
+			availablePositions = findAvailableSlotsForTownhall(player, card);
+		} else if(CardType.ACTION != card.getCardType()) {
+			availablePositions = findAvailableSlotsForBuilding(player, card);
+		} else {
+			availablePositions = findAvailableSlotsForAction(player, card);
+		}
 		return availablePositions;
+	}
+
+	private List<Point> findAvailableSlotsForBuilding(Player player, Card card) {
+		return null;
+	}
+
+	private List<Point> findAvailableSlotsForTownhall(Player player, Card card) {
+		return null;
+	}
+
+	private List<Point> findAvailableSlotsForAction(Player player, Card card) {
+		return null;
 	}
 
 	public static TableSlotVisualizer getInstance() {

@@ -48,6 +48,10 @@ public class TableManager {
 		}
 	}
 
+	public CardSlot[][] provideFullGrid() {
+		return table.getTableGrid();
+	}
+
 	private static class GridNeighbors {
 
 		private final int[] neighbors;
