@@ -3,7 +3,7 @@ package pl.boardgame.duckburg.deck.cards;
 import pl.boardgame.duckburg.deck.cards.types.CardFunctionType;
 import pl.boardgame.duckburg.deck.cards.types.CardType;
 
-public abstract class Card {
+public abstract class Card implements Comparable<Card> {
 
 	private final int id;
 
@@ -24,5 +24,13 @@ public abstract class Card {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Card otherCard) {
+		if(otherCard == null) {
+			return 1;
+		}
+		return Integer.valueOf(id).compareTo(otherCard.id);
 	}
 }

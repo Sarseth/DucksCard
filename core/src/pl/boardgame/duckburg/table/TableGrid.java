@@ -23,7 +23,7 @@ class TableGrid {
 	private void prepareEmptyTable() {
 		for(int i = 0; i < gridSize; i++) {
 			for(int j = 0; j < gridSize; j++) {
-				tableGrid[i][j] = new CardSlot();
+				tableGrid[i][j] = new CardSlot(i, j);
 			}
 		}
 	}

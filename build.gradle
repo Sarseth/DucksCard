@@ -89,6 +89,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.3"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile group: 'com.google.guava', name: 'guava', version: '19.0'
 
         testCompile "junit:junit:4.11"
         testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -98,6 +99,7 @@ project(":core") {
         testCompile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         testCompile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.3"
         testCompile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        testCompile group: 'com.google.guava', name: 'guava', version: '19.0'
     }
 }
 

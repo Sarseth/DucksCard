@@ -4,36 +4,46 @@ import java.awt.Point;
 
 import javafx.geometry.Side;
 import pl.boardgame.duckburg.deck.cards.Card;
+import pl.boardgame.duckburg.utils.exceptions.SingletonMultipleInitializationException;
 
 public class TableManager {
 
 	private TableGrid table;
 
+	private static TableManager instance;
+
+	public TableManager() {
+		if(getInstance() != null) {
+			throw new SingletonMultipleInitializationException(TableManager.class);
+		}
+		instance = this;
+	}
+
 	public void createGrid(int gridSize) {
 		table = new TableGrid(gridSize);
 	}
 
-	public boolean checkIfPointIsFree(Point coords) {
+	public boolean checkIfPointIsFree(Point position) {
 		CardSlot[][] tableGrid = table.getTableGrid();
-		return tableGrid[coords.x][coords.y].getCard() == null;
+		return tableGrid[position.x][position.y].getCard() == null;
 	}
 
-	public boolean addIdAtPosition(Point coords, Card card) {
-		if(checkIfPointIsFree(coords)) {
+	public boolean addIdAtPosition(Point position, Card card) {
+		if(checkIfPointIsFree(position)) {
 			CardSlot[][] tableGrid = table.getTableGrid();
-			tableGrid[coords.x][coords.y].setCard(card);
+			tableGrid[position.x][position.y].setCard(card);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean removeAtPosition(Point coords) {
-		if(checkIfPointIsFree(coords)) {
+	public boolean removeAtPosition(Point position) {
+		if(checkIfPointIsFree(position)) {
 			return false;
 		} else {
 			CardSlot[][] tableGrid = table.getTableGrid();
-			tableGrid[coords.x][coords.y].setCard(null);
+			tableGrid[position.x][position.y].setCard(null);
 			return true;
 		}
 	}
@@ -64,5 +74,10 @@ public class TableManager {
 			}
 			return 0;
 		}
+
+	}
+
+	public static TableManager getInstance() {
+		return instance;
 	}
 }

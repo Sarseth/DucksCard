@@ -20,8 +20,6 @@ public class Croupier {
 
 	private final Map<Integer, Card> allCardsMap;
 
-	private Random random = new Random();
-
 	public Croupier() {
 		if(getInstance() != null) {
 			throw new SingletonMultipleInitializationException(Croupier.class);
