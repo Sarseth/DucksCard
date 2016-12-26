@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.awt.Point;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import pl.boardgame.duckburg.GameOptions;
@@ -14,14 +15,18 @@ import pl.boardgame.duckburg.deck.cards.TownhallCard;
 
 public class TableManagerTest {
 
-	private TableManager tableManager;
+	private static TableManager tableManager;
 
 	private Card exampleCard = new TownhallCard(1, "example");
 
+	@BeforeClass
+	public static void beforeClass() {
+		tableManager = new TableManager();
+	}
+
 	@Before
 	public void before() {
-		tableManager = new TableManager();
-		tableManager.createGrid(GameOptions.TableSize.SMALL.getTableSize());
+		tableManager.createGrid(GameOptions.TableSize.SMALL);
 	}
 
 	@Test

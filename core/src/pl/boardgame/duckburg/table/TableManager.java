@@ -3,6 +3,7 @@ package pl.boardgame.duckburg.table;
 import java.awt.Point;
 
 import javafx.geometry.Side;
+import pl.boardgame.duckburg.GameOptions;
 import pl.boardgame.duckburg.deck.cards.Card;
 import pl.boardgame.duckburg.utils.exceptions.SingletonMultipleInitializationException;
 
@@ -19,8 +20,8 @@ public class TableManager {
 		instance = this;
 	}
 
-	public void createGrid(int gridSize) {
-		table = new TableGrid(gridSize);
+	public void createGrid(GameOptions.TableSize tableSize) {
+		table = new TableGrid(tableSize.getTableSize());
 	}
 
 	public boolean checkIfPointIsFree(Point position) {

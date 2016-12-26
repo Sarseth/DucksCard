@@ -1,10 +1,12 @@
 package pl.boardgame.duckburg.table;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.boardgame.duckburg.deck.cards.Card;
 import pl.boardgame.duckburg.deck.cards.types.CardType;
+import pl.boardgame.duckburg.gameplay.turn.TurnManager;
 import pl.boardgame.duckburg.player.Player;
 import pl.boardgame.duckburg.utils.exceptions.SingletonMultipleInitializationException;
 
@@ -36,12 +38,32 @@ public class TableSlotVisualizer {
 	}
 
 	private List<Point> findAvailableSlotsForTownhall(Player player, Card card) {
-		return null;
-	}
+        List<Point> availablePoints;
+        if(TurnManager.getInstance().isInitTurn()) {
+            availablePoints = findPlayerStartingTriangle();
+        } else {
+            availablePoints = null;
+        }
+        return availablePoints;
+    }
 
-	private List<Point> findAvailableSlotsForAction(Player player, Card card) {
-		return null;
-	}
+    private List<Point> findPlayerStartingTriangle() {
+        List<Point> availablePoints;
+        CardSlot[][] cardSlots = TableManager.getInstance().provideFullGrid();
+        availablePoints = new ArrayList<>();
+        for(int y = 0; y < cardSlots.length; y++) {
+            for(int x = 0; x < cardSlots.length; x++) {
+                if(y > (20 / 2) && (x > 2 + (20 - y - 2) && x < 17 - (20 - y - 2))) {
+                    availablePoints.add(new Point(x, y));
+                }
+            }
+        }
+        return availablePoints;
+    }
+
+    private List<Point> findAvailableSlotsForAction(Player player, Card card) {
+        return null;
+    }
 
 	public static TableSlotVisualizer getInstance() {
 		return instance;

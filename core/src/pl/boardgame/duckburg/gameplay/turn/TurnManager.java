@@ -56,6 +56,10 @@ public class TurnManager {
 		return currentPhase;
 	}
 
+	public boolean isInitTurn() {
+		return TurnPhase.INIT_TURN == currentPhase;
+	}
+
 	public static TurnManager getInstance() {
 		return instance;
 	}
