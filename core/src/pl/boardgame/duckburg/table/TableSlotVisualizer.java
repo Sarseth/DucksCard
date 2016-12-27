@@ -1,9 +1,7 @@
 package pl.boardgame.duckburg.table;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import pl.boardgame.duckburg.deck.cards.Card;
@@ -14,19 +12,19 @@ import pl.boardgame.duckburg.utils.exceptions.SingletonMultipleInitializationExc
 
 public class TableSlotVisualizer {
 
-	private static TableSlotVisualizer instance;
+    private static TableSlotVisualizer instance;
 
-	public TableSlotVisualizer() {
-		if(instance != null) {
-			throw new SingletonMultipleInitializationException(TableSlotVisualizer.class);
-		}
-		instance = this;
-	}
+    public TableSlotVisualizer() {
+        if(instance != null) {
+            throw new SingletonMultipleInitializationException(TableSlotVisualizer.class);
+        }
+        instance = this;
+    }
 
-	public Set<Point> availablePositionsForCard(Player player, Card card) {
-		Set<Point> availablePositions;
-		if(CardType.TOWNHALL == card.getCardType()) {
-			availablePositions = findAvailableSlotsForTownhall(player);
+    public Set<Point> availablePositionsForCard(Player player, Card card) {
+        Set<Point> availablePositions;
+        if(CardType.TOWNHALL == card.getCardType()) {
+            availablePositions = findAvailableSlotsForTownhall(player);
         } else if(CardType.ACTION == card.getCardType()) {
             availablePositions = findAvailableSlotsForAction(player, card);
         } else {
@@ -99,7 +97,7 @@ public class TableSlotVisualizer {
         return null;
     }
 
-	public static TableSlotVisualizer getInstance() {
-		return instance;
-	}
+    public static TableSlotVisualizer getInstance() {
+        return instance;
+    }
 }
