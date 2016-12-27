@@ -4,8 +4,11 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import java.awt.Point;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,21 +16,51 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import pl.boardgame.duckburg.GameInitTestUtils;
 import pl.boardgame.duckburg.GameOptions;
+import pl.boardgame.duckburg.deck.cards.EconomyCard;
+import pl.boardgame.duckburg.deck.cards.PoliceCard;
+import pl.boardgame.duckburg.deck.cards.SpecialCard;
 import pl.boardgame.duckburg.deck.cards.TownhallCard;
 import pl.boardgame.duckburg.gameplay.turn.TurnManager;
 import pl.boardgame.duckburg.player.Player;
+import pl.boardgame.duckburg.utils.PointComparator;
 
 public class TableSlotVisualizerTest {
 
     private static Player playerOne;
+    private static Player playerTwo;
 
 	@BeforeClass
 	public static void beforeClass() {
         playerOne = GameInitTestUtils.initPlayer();
+        playerTwo = GameInitTestUtils.initPlayerTwo();
         new TableManager();
         new TurnManager();
-        TableManager.getInstance().createGrid(GameOptions.TableSize.SMALL);
         new TableSlotVisualizer();
+    }
+
+    @Before
+    public void before() {
+        TableManager.getInstance().createGrid(GameOptions.TableSize.SMALL);
+    }
+
+    @Test
+    public void normalBuildingPlacedAroundTownhalls() {
+        // GIVEN
+        TableManager tableManager = TableManager.getInstance();
+        tableManager.addIdAtPosition(new Point(3, 3), new TownhallCard(1, "Townhall"), playerOne);
+        tableManager.addIdAtPosition(new Point(5, 3), new TownhallCard(2, "Townhall2"), playerOne);
+        tableManager.addIdAtPosition(new Point(4, 3), new EconomyCard(3, "Printer"), playerOne);
+        tableManager.addIdAtPosition(new Point(3, 4), new SpecialCard(4, "DodyHouse"), playerOne);
+        tableManager.addIdAtPosition(new Point(6, 3), new TownhallCard(2, "Townhall2"), playerTwo);
+        List<Point> expectedPoints = Lists.newArrayList(new Point(3, 2), new Point(5, 2), new Point(2, 3), new Point(5, 4));
+
+        // WHEN
+        List<Point> availablePositions = TableSlotVisualizer.getInstance().availablePositionsForCard(playerOne, new PoliceCard(5, "PoliceStation"));
+        expectedPoints.sort(PointComparator.pointComparator());
+        availablePositions.sort(PointComparator.pointComparator());
+
+        // THEN
+        assertThat(availablePositions, is(expectedPoints));
     }
 
     @Test

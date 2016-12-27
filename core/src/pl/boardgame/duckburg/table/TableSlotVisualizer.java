@@ -25,19 +25,46 @@ public class TableSlotVisualizer {
 		List<Point> availablePositions;
 		if(CardType.TOWNHALL == card.getCardType()) {
 			availablePositions = findAvailableSlotsForTownhall(player, card);
-		} else if(CardType.ACTION != card.getCardType()) {
-			availablePositions = findAvailableSlotsForBuilding(player, card);
-		} else {
-			availablePositions = findAvailableSlotsForAction(player, card);
-		}
-		return availablePositions;
-	}
+        } else if(CardType.ACTION == card.getCardType()) {
+            availablePositions = findAvailableSlotsForAction(player, card);
+        } else {
+            availablePositions = findAvailableSlotsForBuilding(player);
+        }
+        return availablePositions;
+    }
 
-	private List<Point> findAvailableSlotsForBuilding(Player player, Card card) {
-		return null;
-	}
+    private List<Point> findAvailableSlotsForBuilding(Player player) {
+        List<Point> availablePositions = new ArrayList<>();
+        TableManager tableManager = TableManager.getInstance();
+        CardSlot[][] cardSlots = tableManager.provideFullGrid();
+        int tableSize = cardSlots.length;
+        for(int x = 0; x < tableSize; x++) {
+            for(int y = 0; y < tableSize; y++) {
+                Point point = new Point(x, y);
+                CardSlot cardSlot = cardSlots[x][y];
+                if(isPlayersOwnTownhall(player, cardSlot)) {
+                    addEmptyNeighbors(availablePositions, tableManager, point);
+                }
+            }
+        }
+        return availablePositions;
+    }
 
-	private List<Point> findAvailableSlotsForTownhall(Player player, Card card) {
+    private void addEmptyNeighbors(List<Point> availablePositions, TableManager tableManager, Point point) {
+        TableManager.GridNeighbors neighbors = tableManager.getNeighbors(point);
+        for(CardSlot neighborSlot : neighbors.getAsList()) {
+            if(tableManager.checkIfPointIsFree(neighborSlot.getPosition())) {
+                availablePositions.add(neighborSlot.getPosition());
+            }
+        }
+    }
+
+    private boolean isPlayersOwnTownhall(Player player, CardSlot cardSlot) {
+        Card card = cardSlot.getCard();
+        return card != null && CardType.TOWNHALL == card.getCardType() && cardSlot.getOwner().getPlayerId() == player.getPlayerId();
+    }
+
+    private List<Point> findAvailableSlotsForTownhall(Player player, Card card) {
         List<Point> availablePoints;
         if(TurnManager.getInstance().isInitTurn()) {
             availablePoints = findPlayerStartingTriangle();

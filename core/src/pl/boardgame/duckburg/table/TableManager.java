@@ -1,10 +1,12 @@
 package pl.boardgame.duckburg.table;
 
 import java.awt.Point;
+import java.util.List;
 
-import javafx.geometry.Side;
+import com.google.common.collect.Lists;
 import pl.boardgame.duckburg.GameOptions;
 import pl.boardgame.duckburg.deck.cards.Card;
+import pl.boardgame.duckburg.player.Player;
 import pl.boardgame.duckburg.utils.exceptions.SingletonMultipleInitializationException;
 
 public class TableManager {
@@ -29,10 +31,12 @@ public class TableManager {
 		return tableGrid[position.x][position.y].getCard() == null;
 	}
 
-	public boolean addIdAtPosition(Point position, Card card) {
+	public boolean addIdAtPosition(Point position, Card card, Player player) {
 		if(checkIfPointIsFree(position)) {
 			CardSlot[][] tableGrid = table.getTableGrid();
-			tableGrid[position.x][position.y].setCard(card);
+			CardSlot cardSlot = tableGrid[position.x][position.y];
+			cardSlot.setCard(card);
+			cardSlot.setOwner(player);
 			return true;
 		} else {
 			return false;
@@ -53,33 +57,50 @@ public class TableManager {
 		return table.getTableGrid();
 	}
 
-	private static class GridNeighbors {
+	public GridNeighbors getNeighbors(Point point) {
+		int x = point.x;
+		int y = point.y;
+		CardSlot topNeighbor = (point.y > 0) ? table.getTableGrid()[x][y - 1] : null;
+		CardSlot rightNeighbor = (point.x < table.getGridSize() - 1) ? table.getTableGrid()[x + 1][y] : null;
+		CardSlot bottomNeighbor = (point.y < table.getGridSize() - 1) ? table.getTableGrid()[x][y + 1] : null;
+		CardSlot leftNeighbor = (point.x > 0) ? table.getTableGrid()[x - 1][y] : null;
 
-		private final int[] neighbors;
+		return new GridNeighbors(topNeighbor, rightNeighbor, bottomNeighbor, leftNeighbor);
+	}
 
-		public GridNeighbors(int[] neighbors) {
-			this.neighbors = neighbors;
+	public static class GridNeighbors {
+
+		private final CardSlot topNeighbor;
+		private final CardSlot rightNeighbor;
+		private final CardSlot bottomNeighbor;
+		private final CardSlot leftNeighbor;
+
+		public GridNeighbors(CardSlot topNeighbor, CardSlot rightNeighbor, CardSlot bottomNeighbor, CardSlot leftNeighbor) {
+			this.topNeighbor = topNeighbor;
+			this.rightNeighbor = rightNeighbor;
+			this.bottomNeighbor = bottomNeighbor;
+			this.leftNeighbor = leftNeighbor;
 		}
 
-		public int[] getNeighbors() {
-			return neighbors;
+		public CardSlot getTopNeighbor() {
+			return topNeighbor;
 		}
 
-		public int getNeighbor(Side side) {
-			switch (side) {
-				case TOP:
-
-					break;
-				case BOTTOM:
-					break;
-				case LEFT:
-					break;
-				case RIGHT:
-					break;
-			}
-			return 0;
+		public CardSlot getRightNeighbor() {
+			return rightNeighbor;
 		}
 
+		public CardSlot getBottomNeighbor() {
+			return bottomNeighbor;
+		}
+
+		public CardSlot getLeftNeighbor() {
+			return leftNeighbor;
+		}
+
+		public List<CardSlot> getAsList() {
+			return Lists.newArrayList(topNeighbor, rightNeighbor, bottomNeighbor, leftNeighbor);
+		}
 	}
 
 	public static TableManager getInstance() {

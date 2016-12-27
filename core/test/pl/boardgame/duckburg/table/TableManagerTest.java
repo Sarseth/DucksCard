@@ -9,20 +9,25 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import pl.boardgame.duckburg.GameInitTestUtils;
 import pl.boardgame.duckburg.GameOptions;
 import pl.boardgame.duckburg.deck.cards.Card;
 import pl.boardgame.duckburg.deck.cards.TownhallCard;
+import pl.boardgame.duckburg.player.Player;
 
 public class TableManagerTest {
 
 	private static TableManager tableManager;
+
+    private static Player player;
 
 	private Card exampleCard = new TownhallCard(1, "example");
 
 	@BeforeClass
 	public static void beforeClass() {
 		tableManager = new TableManager();
-	}
+        player = GameInitTestUtils.initPlayer();
+    }
 
 	@Before
 	public void before() {
@@ -35,7 +40,7 @@ public class TableManagerTest {
 		Point coords = new Point(1, 1);
 
 		// WHEN
-		assertThat(tableManager.addIdAtPosition(coords, exampleCard), is(true));
+		assertThat(tableManager.addIdAtPosition(coords, exampleCard, player), is(true));
 		assertThat(tableManager.removeAtPosition(coords), is(true));
 
 		// THEN
@@ -48,7 +53,7 @@ public class TableManagerTest {
 		Point coords = new Point(1, 1);
 
 		// WHEN
-		assertThat(tableManager.addIdAtPosition(coords, exampleCard), is(true));
+		assertThat(tableManager.addIdAtPosition(coords, exampleCard, player), is(true));
 
 		// THEN
 		assertThat(tableManager.checkIfPointIsFree(coords), is(false));
@@ -59,7 +64,7 @@ public class TableManagerTest {
 		// GIVEN
 		// WHEN
 		int tableSize = GameOptions.TableSize.SMALL.getTableSize();
-		tableManager.addIdAtPosition(new Point(tableSize, tableSize), exampleCard);
+		tableManager.addIdAtPosition(new Point(tableSize, tableSize), exampleCard, player);
 		// THEN
 	}
 

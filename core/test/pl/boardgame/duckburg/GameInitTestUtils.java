@@ -15,4 +15,10 @@ public class GameInitTestUtils {
 		return new Player(1, Color.BLUE, "Sarseth", playerTable);
 	}
 
+	public static Player initPlayerTwo() {
+		GameCardDeck randomDeckOfCards = Croupier.getInstance().createRandomDeckOfCards(GameOptions.DeckSize.MEDIUM);
+		PlayerTable playerTable = new PlayerTable(randomDeckOfCards);
+		return new Player(2, Color.RED, "Enemy", playerTable);
+	}
+
 }
