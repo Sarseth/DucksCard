@@ -40,7 +40,7 @@ public class TableManagerTest {
 		Point coords = new Point(1, 1);
 
 		// WHEN
-		assertThat(tableManager.addIdAtPosition(coords, exampleCard, player), is(true));
+		assertThat(tableManager.addCardAtPosition(coords, exampleCard, player), is(true));
 		assertThat(tableManager.removeAtPosition(coords), is(true));
 
 		// THEN
@@ -53,7 +53,7 @@ public class TableManagerTest {
 		Point coords = new Point(1, 1);
 
 		// WHEN
-		assertThat(tableManager.addIdAtPosition(coords, exampleCard, player), is(true));
+		assertThat(tableManager.addCardAtPosition(coords, exampleCard, player), is(true));
 
 		// THEN
 		assertThat(tableManager.checkIfPointIsFree(coords), is(false));
@@ -64,7 +64,7 @@ public class TableManagerTest {
 		// GIVEN
 		// WHEN
 		int tableSize = GameOptions.TableSize.SMALL.getTableSize();
-		tableManager.addIdAtPosition(new Point(tableSize, tableSize), exampleCard, player);
+		tableManager.addCardAtPosition(new Point(tableSize, tableSize), exampleCard, player);
 		// THEN
 	}
 

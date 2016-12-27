@@ -20,12 +20,18 @@ public class CardPlacerManager {
 
     public boolean placeCardOnSlot(Player player, Card card, CardSlot cardSlot) {
         TableSlotVisualizer tableSlotVisualizer = TableSlotVisualizer.getInstance();
+        Point position = cardSlot.getPosition();
         /*
             TODO: Create simpler faster validation. Wont have to iterate over full grid. Only checking neighbors.
             But this way, we can find two working different solutions. Visualiser vs placer.
          */
         Set<Point> points = tableSlotVisualizer.availablePositionsForCard(player, card);
-        return points.contains(cardSlot.getPosition());
+        boolean contains = points.contains(position);
+        if(contains) {
+            TableManager tableManager = TableManager.getInstance();
+            tableManager.addCardAtPosition(position, card, player);
+        }
+        return contains;
     }
 
     public static CardPlacerManager getInstance() {

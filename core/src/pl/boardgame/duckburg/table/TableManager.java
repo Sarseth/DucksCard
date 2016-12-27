@@ -31,7 +31,7 @@ public class TableManager {
 		return tableGrid[position.x][position.y].getCard() == null;
 	}
 
-	public boolean addIdAtPosition(Point position, Card card, Player player) {
+	public boolean addCardAtPosition(Point position, Card card, Player player) {
 		if(checkIfPointIsFree(position)) {
 			CardSlot[][] tableGrid = table.getTableGrid();
 			CardSlot cardSlot = tableGrid[position.x][position.y];

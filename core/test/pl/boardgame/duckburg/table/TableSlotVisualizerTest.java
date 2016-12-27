@@ -47,11 +47,11 @@ public class TableSlotVisualizerTest {
     public void townhallCanBePlacedAroundAnyOtherPlayersCards() {
         // GIVEN
         TableManager tableManager = TableManager.getInstance();
-        tableManager.addIdAtPosition(new Point(3, 3), new TownhallCard(1, "Townhall"), playerOne);
-        tableManager.addIdAtPosition(new Point(5, 3), new TownhallCard(2, "Townhall2"), playerOne);
-        tableManager.addIdAtPosition(new Point(4, 3), new EconomyCard(3, "Printer"), playerOne);
-        tableManager.addIdAtPosition(new Point(3, 4), new SpecialCard(4, "DodyHouse"), playerOne);
-        tableManager.addIdAtPosition(new Point(6, 3), new TownhallCard(2, "Townhall2"), playerTwo);
+        tableManager.addCardAtPosition(new Point(3, 3), new TownhallCard(1, "Townhall"), playerOne);
+        tableManager.addCardAtPosition(new Point(5, 3), new TownhallCard(2, "Townhall2"), playerOne);
+        tableManager.addCardAtPosition(new Point(4, 3), new EconomyCard(3, "Printer"), playerOne);
+        tableManager.addCardAtPosition(new Point(3, 4), new SpecialCard(4, "DodyHouse"), playerOne);
+        tableManager.addCardAtPosition(new Point(6, 3), new TownhallCard(2, "Townhall2"), playerTwo);
         List<Point> expectedPoints = Lists.newArrayList(
                 new Point(3, 2), new Point(4, 2), new Point(5, 2), new Point(2, 3), new Point(2, 4), new Point(4, 4), new Point(5, 4), new Point(3, 5));
         TurnManager.getInstance().nextTurn();
@@ -70,11 +70,11 @@ public class TableSlotVisualizerTest {
     public void normalBuildingPlacedAroundTownhalls() {
         // GIVEN
         TableManager tableManager = TableManager.getInstance();
-        tableManager.addIdAtPosition(new Point(3, 3), new TownhallCard(1, "Townhall"), playerOne);
-        tableManager.addIdAtPosition(new Point(5, 3), new TownhallCard(2, "Townhall2"), playerOne);
-        tableManager.addIdAtPosition(new Point(4, 3), new EconomyCard(3, "Printer"), playerOne);
-        tableManager.addIdAtPosition(new Point(3, 4), new SpecialCard(4, "DodyHouse"), playerOne);
-        tableManager.addIdAtPosition(new Point(6, 3), new TownhallCard(2, "Townhall2"), playerTwo);
+        tableManager.addCardAtPosition(new Point(3, 3), new TownhallCard(1, "Townhall"), playerOne);
+        tableManager.addCardAtPosition(new Point(5, 3), new TownhallCard(2, "Townhall2"), playerOne);
+        tableManager.addCardAtPosition(new Point(4, 3), new EconomyCard(3, "Printer"), playerOne);
+        tableManager.addCardAtPosition(new Point(3, 4), new SpecialCard(4, "DodyHouse"), playerOne);
+        tableManager.addCardAtPosition(new Point(6, 3), new TownhallCard(2, "Townhall2"), playerTwo);
         List<Point> expectedPoints = Lists.newArrayList(new Point(3, 2), new Point(5, 2), new Point(2, 3), new Point(5, 4));
 
         // WHEN
