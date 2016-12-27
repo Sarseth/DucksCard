@@ -26,6 +26,11 @@ public class TurnManager {
 		currentPhase = TurnPhase.INIT_TURN;
 	}
 
+    public TurnPhase resetGame() {
+        currentPhase = TurnPhase.INIT_TURN;
+        return currentPhase;
+    }
+
 	public TurnPhase nextTurn(){
 		switch (currentPhase) {
 			case INIT_TURN:

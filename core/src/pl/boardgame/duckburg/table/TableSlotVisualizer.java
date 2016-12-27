@@ -2,7 +2,9 @@ package pl.boardgame.duckburg.table;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pl.boardgame.duckburg.deck.cards.Card;
 import pl.boardgame.duckburg.deck.cards.types.CardType;
@@ -21,20 +23,20 @@ public class TableSlotVisualizer {
 		instance = this;
 	}
 
-	public List<Point> availablePositionsForCard(Player player, Card card) {
-		List<Point> availablePositions;
+	public Set<Point> availablePositionsForCard(Player player, Card card) {
+		Set<Point> availablePositions;
 		if(CardType.TOWNHALL == card.getCardType()) {
-			availablePositions = findAvailableSlotsForTownhall(player, card);
+			availablePositions = findAvailableSlotsForTownhall(player);
         } else if(CardType.ACTION == card.getCardType()) {
             availablePositions = findAvailableSlotsForAction(player, card);
         } else {
-            availablePositions = findAvailableSlotsForBuilding(player);
+            availablePositions = findAvailableSlotsForBuilding(player, false);
         }
         return availablePositions;
     }
 
-    private List<Point> findAvailableSlotsForBuilding(Player player) {
-        List<Point> availablePositions = new ArrayList<>();
+    private Set<Point> findAvailableSlotsForBuilding(Player player, boolean forTownhall) {
+        Set<Point> availablePositions = new HashSet<>();
         TableManager tableManager = TableManager.getInstance();
         CardSlot[][] cardSlots = tableManager.provideFullGrid();
         int tableSize = cardSlots.length;
@@ -42,7 +44,7 @@ public class TableSlotVisualizer {
             for(int y = 0; y < tableSize; y++) {
                 Point point = new Point(x, y);
                 CardSlot cardSlot = cardSlots[x][y];
-                if(isPlayersOwnTownhall(player, cardSlot)) {
+                if((forTownhall && isPlayersOwnBuilding(player, cardSlot)) || (!forTownhall && isPlayersOwnTownhall(player, cardSlot))) {
                     addEmptyNeighbors(availablePositions, tableManager, point);
                 }
             }
@@ -50,7 +52,7 @@ public class TableSlotVisualizer {
         return availablePositions;
     }
 
-    private void addEmptyNeighbors(List<Point> availablePositions, TableManager tableManager, Point point) {
+    private void addEmptyNeighbors(Set<Point> availablePositions, TableManager tableManager, Point point) {
         TableManager.GridNeighbors neighbors = tableManager.getNeighbors(point);
         for(CardSlot neighborSlot : neighbors.getAsList()) {
             if(tableManager.checkIfPointIsFree(neighborSlot.getPosition())) {
@@ -59,25 +61,30 @@ public class TableSlotVisualizer {
         }
     }
 
+    private boolean isPlayersOwnBuilding(Player player, CardSlot cardSlot) {
+        Card card = cardSlot.getCard();
+        return card != null && cardSlot.getOwner().getPlayerId() == player.getPlayerId();
+    }
+
     private boolean isPlayersOwnTownhall(Player player, CardSlot cardSlot) {
         Card card = cardSlot.getCard();
         return card != null && CardType.TOWNHALL == card.getCardType() && cardSlot.getOwner().getPlayerId() == player.getPlayerId();
     }
 
-    private List<Point> findAvailableSlotsForTownhall(Player player, Card card) {
-        List<Point> availablePoints;
+    private Set<Point> findAvailableSlotsForTownhall(Player player) {
+        Set<Point> availablePoints;
         if(TurnManager.getInstance().isInitTurn()) {
             availablePoints = findPlayerStartingTriangle();
         } else {
-            availablePoints = null;
+            availablePoints = findAvailableSlotsForBuilding(player, true);
         }
         return availablePoints;
     }
 
-    private List<Point> findPlayerStartingTriangle() {
-        List<Point> availablePoints;
+
+    private Set<Point> findPlayerStartingTriangle() {
+        Set<Point> availablePoints = new HashSet<>();
         CardSlot[][] cardSlots = TableManager.getInstance().provideFullGrid();
-        availablePoints = new ArrayList<>();
         for(int y = 0; y < cardSlots.length; y++) {
             for(int x = 0; x < cardSlots.length; x++) {
                 if(y > (20 / 2) && (x > 2 + (20 - y - 2) && x < 17 - (20 - y - 2))) {
@@ -88,7 +95,7 @@ public class TableSlotVisualizer {
         return availablePoints;
     }
 
-    private List<Point> findAvailableSlotsForAction(Player player, Card card) {
+    private Set<Point> findAvailableSlotsForAction(Player player, Card card) {
         return null;
     }
 

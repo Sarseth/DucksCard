@@ -4,8 +4,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import java.awt.Point;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -41,6 +40,30 @@ public class TableSlotVisualizerTest {
     @Before
     public void before() {
         TableManager.getInstance().createGrid(GameOptions.TableSize.SMALL);
+        TurnManager.getInstance().resetGame();
+    }
+
+    @Test
+    public void townhallCanBePlacedAroundAnyOtherPlayersCards() {
+        // GIVEN
+        TableManager tableManager = TableManager.getInstance();
+        tableManager.addIdAtPosition(new Point(3, 3), new TownhallCard(1, "Townhall"), playerOne);
+        tableManager.addIdAtPosition(new Point(5, 3), new TownhallCard(2, "Townhall2"), playerOne);
+        tableManager.addIdAtPosition(new Point(4, 3), new EconomyCard(3, "Printer"), playerOne);
+        tableManager.addIdAtPosition(new Point(3, 4), new SpecialCard(4, "DodyHouse"), playerOne);
+        tableManager.addIdAtPosition(new Point(6, 3), new TownhallCard(2, "Townhall2"), playerTwo);
+        List<Point> expectedPoints = Lists.newArrayList(
+                new Point(3, 2), new Point(4, 2), new Point(5, 2), new Point(2, 3), new Point(2, 4), new Point(4, 4), new Point(5, 4), new Point(3, 5));
+        TurnManager.getInstance().nextTurn();
+
+        // WHEN
+        List<Point> availablePositions =
+                new ArrayList<>(TableSlotVisualizer.getInstance().availablePositionsForCard(playerOne, new TownhallCard(5, "AnotherHall")));
+        expectedPoints.sort(PointComparator.pointComparator());
+        availablePositions.sort(PointComparator.pointComparator());
+
+        // THEN
+        assertThat(availablePositions, is(expectedPoints));
     }
 
     @Test
@@ -55,7 +78,8 @@ public class TableSlotVisualizerTest {
         List<Point> expectedPoints = Lists.newArrayList(new Point(3, 2), new Point(5, 2), new Point(2, 3), new Point(5, 4));
 
         // WHEN
-        List<Point> availablePositions = TableSlotVisualizer.getInstance().availablePositionsForCard(playerOne, new PoliceCard(5, "PoliceStation"));
+        List<Point> availablePositions =
+                new ArrayList<>(TableSlotVisualizer.getInstance().availablePositionsForCard(playerOne, new PoliceCard(5, "PoliceStation")));
         expectedPoints.sort(PointComparator.pointComparator());
         availablePositions.sort(PointComparator.pointComparator());
 
@@ -81,7 +105,9 @@ public class TableSlotVisualizerTest {
                 new Point(17, 19));
 
         // WHEN
-        List<Point> availablePositions = TableSlotVisualizer.getInstance().availablePositionsForCard(playerOne, card);
+        List<Point> availablePositions = new ArrayList<>(TableSlotVisualizer.getInstance().availablePositionsForCard(playerOne, card));
+        expectedPoints.sort(PointComparator.pointComparator());
+        availablePositions.sort(PointComparator.pointComparator());
 
         // THEN
         assertThat(availablePositions, is(expectedPoints)); //check in hamcrest docs for correct matcher
